@@ -11,11 +11,13 @@
     --surface: #ffffff;
     --border: #e0d9d0;
     --accent: #2d6a4f;
+    --accent-light: #eaf3ef;
     --accent2: #e76f51;
     --text: #1a1a1a;
     --muted: #9a9080;
     --done: #eae5df;
-    --tag-bg: #eaf3ef;
+    --tip: #fff8f0;
+    --tip-border: #f4c48a;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,28 +35,104 @@
 
   header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     animation: fadeDown 0.6s ease both;
   }
 
   header h1 {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-size: clamp(2rem, 6vw, 3.2rem);
     letter-spacing: -0.03em;
     line-height: 1;
-    color: var(--text);
   }
 
   header h1 span { color: var(--accent); }
 
   header p {
-    margin-top: 12px;
+    margin-top: 10px;
     color: var(--muted);
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
+    font-size: 0.83rem;
+    letter-spacing: 0.04em;
   }
 
+  /* INTRO SCREEN */
+  .intro-card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    animation: slideUp 0.4s ease both;
+  }
+
+  .intro-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .intro-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .intro-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .intent-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .intent-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .intent-btn:hover, .intent-btn.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .intent-icon { font-size: 1.8rem; }
+
+  .intent-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  .intent-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* PROGRESS */
   .progress-bar {
     width: 100%;
     max-width: 560px;
@@ -79,11 +157,11 @@
     text-align: center;
     margin-bottom: 30px;
     letter-spacing: 0.1em;
-    animation: fadeIn 0.6s 0.3s ease both;
   }
 
   .step-counter span { color: var(--accent); font-weight: 700; }
 
+  /* QUESTION CARD */
   .card {
     width: 100%;
     max-width: 560px;
@@ -91,8 +169,8 @@
     border: 1px solid var(--border);
     border-radius: 20px;
     padding: 36px;
-    animation: slideUp 0.4s ease both;
     box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    animation: slideUp 0.4s ease both;
   }
 
   .question-number {
@@ -107,56 +185,89 @@
   .question-text {
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
     line-height: 1.3;
-    margin-bottom: 8px;
-    color: var(--text);
+    margin-bottom: 6px;
   }
 
   .question-hint {
     font-size: 0.78rem;
     color: var(--muted);
-    margin-bottom: 28px;
+    margin-bottom: 20px;
     line-height: 1.6;
   }
 
   .question-hint em {
-    color: #b0a898;
+    color: #b5a898;
     font-style: normal;
     display: block;
-    margin-top: 4px;
+    margin-top: 3px;
   }
 
+  /* OPTIONS */
   .options-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   .option-btn {
     background: var(--bg);
     border: 1.5px solid var(--border);
     color: var(--text);
-    padding: 12px 16px;
+    padding: 11px 14px;
     border-radius: 12px;
     font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     cursor: pointer;
     transition: all 0.15s ease;
     text-align: left;
+    line-height: 1.4;
   }
 
-  .option-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--tag-bg);
+  .option-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .option-btn.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+
+  /* EXAMPLE BOX */
+  .example-box {
+    background: var(--done);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    line-height: 1.5;
   }
 
-  .option-btn.selected {
-    border-color: var(--accent);
-    background: var(--tag-bg);
+  .example-box span { flex: 1; }
+
+  .use-example-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .use-example-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+
+  .or-divider {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.72rem;
+    margin: 10px 0 8px;
+    letter-spacing: 0.1em;
   }
 
   .input-field {
@@ -164,10 +275,10 @@
     background: var(--bg);
     border: 1.5px solid var(--border);
     color: var(--text);
-    padding: 16px 18px;
+    padding: 14px 16px;
     border-radius: 12px;
     font-family: 'DM Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     outline: none;
     transition: border-color 0.2s ease;
     resize: none;
@@ -176,10 +287,63 @@
   .input-field:focus { border-color: var(--accent); }
   .input-field::placeholder { color: var(--muted); }
 
+  /* TIP */
+  .tip-box {
+    display: none;
+    background: var(--tip);
+    border: 1px solid var(--tip-border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.76rem;
+    color: #8a6020;
+    margin-top: 12px;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease both;
+  }
+
+  .tip-box.visible { display: block; }
+
+  /* PROMPT PREVIEW */
+  .prompt-preview {
+    display: none;
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--accent-light);
+    border: 1px dashed var(--accent);
+    border-radius: 12px;
+    font-size: 0.76rem;
+    color: var(--accent);
+    line-height: 1.7;
+  }
+
+  .prompt-preview.visible { display: block; }
+  .prompt-preview-label { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.7; }
+
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .btn-back {
+    padding: 15px 18px;
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .btn-back:hover { color: var(--text); border-color: #c0b8b0; }
+  .btn-back:disabled { opacity: 0.3; cursor: not-allowed; }
+
   .btn-next {
-    width: 100%;
-    margin-top: 20px;
-    padding: 16px;
+    flex: 1;
+    padding: 15px;
     background: var(--accent);
     color: #fff;
     border: none;
@@ -188,25 +352,12 @@
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
-    letter-spacing: 0.02em;
     transition: all 0.2s ease;
   }
 
-  .btn-next:hover {
-    background: #235c42;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(45,106,79,0.25);
-  }
-
+  .btn-next:hover { background: #235c42; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(45,106,79,0.25); }
   .btn-next:active { transform: translateY(0); }
-
-  .btn-next:disabled {
-    background: var(--border);
-    color: var(--muted);
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
+  .btn-next:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
 
   /* RESULT */
   .result-card {
@@ -230,101 +381,84 @@
     background: var(--surface);
     border: 1.5px solid var(--accent);
     border-radius: 20px;
-    padding: 28px;
-    font-size: 0.9rem;
+    padding: 26px;
+    font-size: 0.88rem;
     line-height: 2;
     color: var(--text);
     margin-bottom: 16px;
     box-shadow: 0 4px 24px rgba(45,106,79,0.08);
   }
 
-  .prompt-box .bracket {
-    color: var(--accent);
-    font-weight: 700;
-  }
+  .prompt-box .bracket { color: var(--accent); font-weight: 700; }
 
   .prompt-plain { display: none; }
 
-  .btn-copy {
-    width: 100%;
-    padding: 16px;
+  .copy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .btn-copy-platform {
+    padding: 12px 8px;
     background: transparent;
     color: var(--accent);
     border: 1.5px solid var(--accent);
     border-radius: 12px;
     font-family: 'Syne', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.78rem;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-bottom: 12px;
-    letter-spacing: 0.02em;
+    text-align: center;
+    line-height: 1.3;
   }
 
-  .btn-copy:hover { background: var(--tag-bg); }
+  .btn-copy-platform:hover { background: var(--accent-light); }
+  .btn-copy-platform.copied { color: #fff; background: var(--accent); }
 
-  .btn-copy.copied {
-    color: #fff;
-    background: var(--accent);
-    border-color: var(--accent);
+  .summary-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 18px;
   }
+
+  .pill {
+    background: var(--done);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 0.73rem;
+    color: var(--muted);
+  }
+
+  .pill span { color: var(--text); }
 
   .btn-restart {
     width: 100%;
-    padding: 14px;
+    padding: 13px;
     background: transparent;
     color: var(--muted);
     border: 1.5px solid var(--border);
     border-radius: 12px;
     font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.83rem;
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .btn-restart:hover { color: var(--text); border-color: #c0b8b0; }
 
-  .summary-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .pill {
-    background: var(--done);
-    border-radius: 20px;
-    padding: 6px 14px;
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  .pill span { color: var(--text); }
-
-  .or-divider {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.75rem;
-    margin: 12px 0 10px;
-    letter-spacing: 0.1em;
-  }
-
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 
   @media (max-width: 480px) {
     .options-grid { grid-template-columns: 1fr; }
-    .card { padding: 24px; }
+    .intent-grid { grid-template-columns: 1fr 1fr; }
+    .copy-grid { grid-template-columns: 1fr; }
+    .card, .intro-card { padding: 22px; }
   }
 </style>
 </head>
@@ -332,106 +466,183 @@
 
 <header>
   <h1>AI <span>Prompt</span> Builder</h1>
-  <p>7 questions → your perfect prompt</p>
+  <p>Answer 7 questions → get your perfect prompt</p>
 </header>
 
-<div class="progress-bar">
+<!-- INTRO -->
+<div class="intro-card" id="introCard">
+  <div class="intro-label">✦ Step 0 of 7</div>
+  <div class="intro-title">What do you want to create?</div>
+  <div class="intro-sub">Pick a category — we'll tailor the questions to match your goal.</div>
+  <div class="intent-grid">
+    <button class="intent-btn" onclick="selectIntent('portrait')">
+      <div class="intent-icon">🧍</div>
+      <div class="intent-name">Portrait</div>
+      <div class="intent-desc">Person, face, character</div>
+    </button>
+    <button class="intent-btn" onclick="selectIntent('landscape')">
+      <div class="intent-icon">🌄</div>
+      <div class="intent-name">Landscape</div>
+      <div class="intent-desc">Nature, city, environment</div>
+    </button>
+    <button class="intent-btn" onclick="selectIntent('product')">
+      <div class="intent-icon">📦</div>
+      <div class="intent-name">Product</div>
+      <div class="intent-desc">Object, e-commerce, ad</div>
+    </button>
+    <button class="intent-btn" onclick="selectIntent('cinematic')">
+      <div class="intent-icon">🎬</div>
+      <div class="intent-name">Cinematic Scene</div>
+      <div class="intent-desc">Film still, story moment</div>
+    </button>
+    <button class="intent-btn" onclick="selectIntent('fantasy')">
+      <div class="intent-icon">🐉</div>
+      <div class="intent-name">Fantasy / Sci-Fi</div>
+      <div class="intent-desc">World-building, creatures</div>
+    </button>
+    <button class="intent-btn" onclick="selectIntent('street')">
+      <div class="intent-icon">🏙️</div>
+      <div class="intent-name">Street Photo</div>
+      <div class="intent-desc">Urban, documentary, candid</div>
+    </button>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar" id="progressBar" style="display:none">
   <div class="progress-fill" id="progressFill"></div>
 </div>
 
-<div class="step-counter" id="stepCounter">
+<div class="step-counter" id="stepCounter" style="display:none">
   Step <span id="currentStep">1</span> of <span>7</span>
 </div>
 
-<div class="card" id="questionCard">
+<!-- QUESTION CARD -->
+<div class="card" id="questionCard" style="display:none">
   <div class="question-number" id="qNumber">QUESTION 01</div>
   <div class="question-text" id="qText"></div>
   <div class="question-hint" id="qHint"></div>
   <div id="qOptions"></div>
-  <button class="btn-next" id="btnNext" onclick="nextStep()">Continue →</button>
+  <div class="tip-box" id="tipBox"></div>
+  <div class="prompt-preview" id="promptPreview">
+    <div class="prompt-preview-label">Building your prompt...</div>
+    <div id="promptPreviewText"></div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" id="btnBack" onclick="prevStep()">← Back</button>
+    <button class="btn-next" id="btnNext" onclick="nextStep()">Continue →</button>
+  </div>
 </div>
 
+<!-- RESULT -->
 <div class="result-card" id="resultCard">
   <div class="result-label">✦ Your Prompt</div>
   <div class="summary-pills" id="summaryPills"></div>
   <div class="prompt-box" id="promptBox"></div>
   <div class="prompt-plain" id="promptPlain"></div>
-  <button class="btn-copy" id="btnCopy" onclick="copyPrompt()">Copy prompt</button>
+  <div class="copy-grid">
+    <button class="btn-copy-platform" onclick="copyFor('midjourney')">Copy for<br>Midjourney</button>
+    <button class="btn-copy-platform" onclick="copyFor('nano')">Copy for<br>Nano Banana</button>
+    <button class="btn-copy-platform" onclick="copyFor('chatgpt')">Copy for<br>ChatGPT</button>
+  </div>
   <button class="btn-restart" onclick="restart()">← Start over</button>
 </div>
 
 <script>
-const questions = [
-  {
-    number: "01",
-    text: "What type of image do you want?",
-    hint: "The base visual style of the image.",
-    hint2: "e.g. realistic photo, cinematic film still, digital illustration, 3D render",
-    type: "options+text",
-    options: ["Realistic photo", "Cinematic film still", "Digital illustration", "3D render", "Animation / cartoon", "Oil painting"]
-  },
-  {
-    number: "02",
-    text: "Who or what is in the image?",
-    hint: "The main subject. Be specific: age, appearance, details.",
-    hint2: "e.g. a 30-year-old woman with red hair, an abandoned robot, a black sports car",
-    type: "text",
-    placeholder: "Describe the subject..."
-  },
-  {
-    number: "03",
-    text: "What is the subject doing?",
-    hint: "The action or state. If nothing — describe the expression or posture.",
-    hint2: "e.g. running through rain, gazing into the distance, holding a book",
-    type: "text",
-    placeholder: "Describe the action or posture..."
-  },
-  {
-    number: "04",
-    text: "Where is it? What's the background?",
-    hint: "Location, environment, context. The more specific, the better.",
-    hint2: "e.g. Tokyo at night, dark forest, white minimalist studio, desert at sunset",
-    type: "text",
-    placeholder: "Describe the location and background..."
-  },
-  {
-    number: "05",
-    text: "What mood and atmosphere do you want?",
-    hint: "How should the image feel emotionally and visually.",
-    hint2: "e.g. dark and mysterious, warm and nostalgic, cyberpunk neon, epic cinematic",
-    type: "options+text",
-    options: ["Dark / mysterious", "Warm / nostalgic", "Epic / dramatic", "Minimalist / clean", "Cyberpunk / neon", "Natural / organic"]
-  },
-  {
-    number: "06",
-    text: "Camera and lighting details",
-    hint: "Optional but important. Choose what fits your style.",
-    hint2: "Leave blank if unsure — standard settings will be added.",
-    type: "options+text",
-    options: ["85mm portrait lens", "35mm wide angle", "Golden hour lighting", "Low-key / dramatic shadows", "High-key / bright studio", "Kodak Portra 400 film"]
-  },
-  {
-    number: "07",
-    text: "What camera was used to shoot this?",
-    hint: "Adds cinematic realism to your prompt.",
-    hint2: "e.g. Sony Venice, Red Komodo, ARRI Alexa, Canon 5D, iPhone 15 Pro",
-    type: "options+text",
-    options: ["Sony Venice", "ARRI Alexa Mini", "Red Komodo", "Canon EOS R5", "Hasselblad H6D", "iPhone 15 Pro"]
-  }
-];
+// QUESTIONS PER INTENT
+const questionSets = {
+  portrait: [
+    { number:"01", text:"What type of image?", hint:"Base visual style.", hint2:"e.g. realistic photo, cinematic film still, digital painting", type:"options+text", example:"Cinematic film still", options:["Realistic photo","Cinematic film still","Fashion editorial","3D render","Oil painting","Digital illustration"], tip:"'Cinematic film still' instantly tells the AI you want a movie-quality look — great for dramatic portraits." },
+    { number:"02", text:"Who is in the image?", hint:"Describe the person: age, appearance, expression.", hint2:"e.g. a 28-year-old man with sharp jawline, intense gaze", type:"text", example:"a 28-year-old woman with curly red hair, confident expression", placeholder:"Describe the person...", tip:"The more detail you add here, the more consistent the face will be across generations." },
+    { number:"03", text:"What are they doing or feeling?", hint:"Action, posture, emotion.", hint2:"e.g. looking over her shoulder, laughing softly, standing still with crossed arms", type:"text", example:"looking over her shoulder, slight smile", placeholder:"Describe action or expression...", tip:"Micro-expressions (slight smile, narrowed eyes) give the AI much more to work with than 'smiling'." },
+    { number:"04", text:"What's the background?", hint:"Where are they? What's around them?", hint2:"e.g. blurred Tokyo street at night, white studio, forest fog", type:"text", example:"blurred city lights at night, shallow depth of field", placeholder:"Describe the environment...", tip:"Adding 'shallow depth of field' keeps focus on the face and blurs the background naturally." },
+    { number:"05", text:"What mood do you want?", hint:"How should it feel emotionally?", hint2:"e.g. mysterious, warm and intimate, cold and tense", type:"options+text", example:"Moody / mysterious", options:["Moody / mysterious","Warm / intimate","Cold / tense","Euphoric / dreamy","Bold / high-fashion","Gritty / raw"], tip:"Mood shapes lighting, color and contrast automatically — it's the fastest way to change the feel of an image." },
+    { number:"06", text:"Camera and lighting?", hint:"Lens, lighting style, film stock.", hint2:"e.g. 85mm f/1.4, Rembrandt lighting, Kodak Portra 400", type:"options+text", example:"85mm f/1.4, Rembrandt lighting", options:["85mm portrait lens","35mm wide angle","Kodak Portra 400","Golden hour light","Low-key dramatic shadows","Butterfly lighting"], tip:"85mm is the classic portrait lens — it compresses the face slightly and feels very natural and flattering." },
+    { number:"07", text:"What camera was used?", hint:"Adds cinematic realism to your prompt.", hint2:"e.g. Sony Venice, ARRI Alexa, Hasselblad H6D", type:"options+text", example:"Hasselblad H6D", options:["Sony Venice","ARRI Alexa Mini","Hasselblad H6D","Canon EOS R5","Red Komodo","iPhone 15 Pro"], tip:"Camera names carry style associations — ARRI = cinema, Hasselblad = luxury fashion, iPhone = authentic/raw." }
+  ],
+  landscape: [
+    { number:"01", text:"What type of image?", hint:"Visual style.", hint2:"e.g. realistic photo, digital painting, cinematic wide shot", type:"options+text", example:"Cinematic wide shot", options:["Realistic photo","Cinematic wide shot","Digital painting","3D render","Watercolor","Aerial photography"], tip:"'Cinematic wide shot' adds the widescreen aspect ratio feel even in a still image." },
+    { number:"02", text:"What's the location?", hint:"Where is this place? Be specific.", hint2:"e.g. Iceland black sand beach, rooftop in Tokyo, dense Amazon rainforest", type:"text", example:"black sand beach in Iceland at low tide", placeholder:"Describe the location...", tip:"Specific places carry real visual associations — the AI knows what Iceland looks like, so use that." },
+    { number:"03", text:"What time of day?", hint:"Light changes everything in landscapes.", hint2:"e.g. golden hour, blue hour, midnight, midday", type:"options+text", example:"Golden hour", options:["Golden hour","Blue hour / dusk","Midnight / starry","Midday / harsh sun","Overcast / soft light","Dawn / first light"], tip:"Golden hour = warm orange light from low sun. Blue hour = just after sunset, cool blue tones. Both are cinematic." },
+    { number:"04", text:"What's the weather / atmosphere?", hint:"Fog, rain, clear, storm?", hint2:"e.g. heavy fog rolling in, light rain on still water, dramatic storm clouds", type:"text", example:"thick morning fog rolling over the water", placeholder:"Describe the atmosphere...", tip:"Fog and mist add natural depth and mystery — they're among the most powerful mood tools in landscape prompting." },
+    { number:"05", text:"What mood do you want?", hint:"How should it feel?", hint2:"e.g. peaceful and meditative, epic and vast, lonely and desolate", type:"options+text", example:"Epic / vast", options:["Peaceful / meditative","Epic / vast","Lonely / desolate","Mysterious / eerie","Lush / alive","Raw / dramatic"], tip:"Mood tells the AI what emotional weight to apply — same location, completely different image." },
+    { number:"06", text:"Camera and lighting?", hint:"Lens and technical details.", hint2:"e.g. 24mm ultra-wide, long exposure, f/11 sharp focus", type:"options+text", example:"24mm ultra-wide, f/11 sharp focus", options:["24mm ultra-wide","50mm standard","Long exposure","f/11 deep focus","Polarizing filter effect","Drone / aerial perspective"], tip:"Ultra-wide (24mm or less) exaggerates the sense of scale — perfect for making landscapes feel massive." },
+    { number:"07", text:"What camera was used?", hint:"Adds realism and style.", hint2:"e.g. Canon 5D, Phase One, DJI Mavic, iPhone 15 Pro", type:"options+text", example:"Canon 5D Mark IV", options:["Canon 5D Mark IV","Phase One XF","ARRI Alexa Mini","DJI Mavic Pro","Sony A7R V","iPhone 15 Pro"], tip:"Phase One = medium format luxury. Canon 5D = classic photojournalism feel. DJI = modern drone aesthetic." }
+  ],
+  product: [
+    { number:"01", text:"What type of image?", hint:"How should the product be shown?", hint2:"e.g. studio product shot, lifestyle photo, macro close-up", type:"options+text", example:"Studio product shot", options:["Studio product shot","Lifestyle / in-use","Macro / close-up","Flat lay","Editorial fashion","3D render"], tip:"Studio shots are cleanest for e-commerce. Lifestyle shots are better for social ads and storytelling." },
+    { number:"02", text:"What is the product?", hint:"Describe it specifically.", hint2:"e.g. a black matte perfume bottle with gold cap, a pair of white leather sneakers", type:"text", example:"a dark amber glass perfume bottle with a minimal gold label", placeholder:"Describe the product...", tip:"Mention material, color, finish and shape — these are what the AI uses to render the object accurately." },
+    { number:"03", text:"How is it positioned?", hint:"Angle, orientation, arrangement.", hint2:"e.g. standing upright centered, lying on its side, surrounded by flowers", type:"text", example:"standing upright, slightly angled, centered on surface", placeholder:"Describe positioning...", tip:"'Slightly angled' avoids the flat, boring dead-on shot — a small angle adds dimension instantly." },
+    { number:"04", text:"What's the background / surface?", hint:"What is the product sitting on or in front of?", hint2:"e.g. white seamless, black marble, aged wood, sandy beach", type:"text", example:"white seamless background, soft shadows", placeholder:"Describe the background...", tip:"White seamless = clean, e-commerce ready. Textured surfaces (marble, wood) = premium, editorial feel." },
+    { number:"05", text:"What mood / color tone?", hint:"The overall feel of the shot.", hint2:"e.g. clean and minimal, warm and earthy, luxury dark, vibrant and fresh", type:"options+text", example:"Luxury / dark", options:["Clean / minimal","Warm / earthy","Luxury / dark","Vibrant / fresh","Moody / dramatic","Pastel / soft"], tip:"Color tone should match the brand. Luxury products almost always use dark or earthy palettes, not bright primary colors." },
+    { number:"06", text:"Camera and lighting?", hint:"How is the product lit?", hint2:"e.g. soft box lighting, rim light, macro lens, Hasselblad", type:"options+text", example:"Soft box lighting, 100mm macro lens", options:["Soft box lighting","Rim / backlight","100mm macro lens","Top-down flat lighting","Hard directional shadow","Natural window light"], tip:"Rim lighting separates the product from the background — essential for dark products on dark backgrounds." },
+    { number:"07", text:"What camera was used?", hint:"Adds photographic realism.", hint2:"e.g. Hasselblad H6D, Phase One, Canon 5D", type:"options+text", example:"Hasselblad H6D", options:["Hasselblad H6D","Phase One XF","Canon 5D Mark IV","Sony A7R V","Leica SL2","Medium format film"], tip:"Hasselblad is the gold standard for product photography — using it in the prompt pushes the AI toward that aesthetic." }
+  ],
+  cinematic: [
+    { number:"01", text:"What type of shot?", hint:"The cinematic frame style.", hint2:"e.g. wide establishing shot, close-up, over-the-shoulder", type:"options+text", example:"Cinematic film still", options:["Wide establishing shot","Medium shot","Close-up / extreme close-up","Over-the-shoulder","POV shot","Two-shot / dialogue"], tip:"Wide shots establish the world. Close-ups establish emotion. The mix of both is what makes editing feel cinematic." },
+    { number:"02", text:"Who or what is in the scene?", hint:"Characters, objects, focal point.", hint2:"e.g. a lone detective in a rain-soaked alley, two people in a tense standoff", type:"text", example:"a lone figure in a long coat standing at the edge of a rooftop", placeholder:"Describe the scene's subject...", tip:"'Lone figure' immediately creates mystery — the AI will build around that emotional anchor." },
+    { number:"03", text:"What's happening in the scene?", hint:"Action, tension, moment frozen in time.", hint2:"e.g. she turns around slowly, he opens the door to find nothing, they stare at each other", type:"text", example:"she looks back over her shoulder, expression unreadable", placeholder:"Describe the moment...", tip:"Describe the second before or after the action — not the action itself. That creates cinematic tension." },
+    { number:"04", text:"What's the location / environment?", hint:"Where does this scene take place?", hint2:"e.g. neon-lit Tokyo alley, abandoned hospital corridor, sun-bleached desert highway", type:"text", example:"rain-soaked Tokyo alley, neon signs reflecting in puddles", placeholder:"Describe the environment...", tip:"Reflections in water, glass and wet surfaces are one of the most effective cinematic tools — add them whenever possible." },
+    { number:"05", text:"What's the mood / genre?", hint:"Film reference or emotional tone.", hint2:"e.g. neo-noir thriller, melancholic drama, tense action, surreal dream sequence", type:"options+text", example:"Neo-noir / thriller", options:["Neo-noir / thriller","Melancholic drama","Tense action / chase","Surreal / dreamlike","Epic / heroic","Horror / dread"], tip:"Genre names carry huge amounts of visual information — 'neo-noir' tells the AI: teal shadows, neon, wet streets, contrast." },
+    { number:"06", text:"Camera movement and lighting?", hint:"How does the camera see this scene?", hint2:"e.g. handheld, tracking shot, chiaroscuro lighting, anamorphic lens flares", type:"options+text", example:"handheld, chiaroscuro lighting, anamorphic lens flares", options:["Handheld / documentary","Static locked-off","Tracking shot","Chiaroscuro lighting","Anamorphic lens flares","Volumetric god rays"], tip:"Anamorphic lens flares are the signature look of Hollywood cinema — horizontal blue streaks of light across the frame." },
+    { number:"07", text:"What camera was used?", hint:"The camera defines the cinematic texture.", hint2:"e.g. ARRI Alexa, Sony Venice, 35mm film", type:"options+text", example:"ARRI Alexa Mini LF", options:["ARRI Alexa Mini LF","Sony Venice 2","Red Monstro","Panavision Millennium DXL2","35mm film / grain","16mm film / gritty"], tip:"ARRI Alexa is used in 70%+ of Oscar-winning films — it's the most 'cinematic' camera name you can use." }
+  ],
+  fantasy: [
+    { number:"01", text:"What type of image?", hint:"Visual rendering style.", hint2:"e.g. digital painting, photorealistic render, concept art, oil painting", type:"options+text", example:"Concept art / digital painting", options:["Digital painting","Photorealistic render","Concept art","3D render","Oil painting","Watercolor illustration"], tip:"'Concept art' is the language of game studios and film — it signals a professional, story-driven aesthetic." },
+    { number:"02", text:"What is the main subject?", hint:"Character, creature, place, object.", hint2:"e.g. an ancient dragon perched on ruins, an elven warrior in glowing armor, a floating sky city", type:"text", example:"an ancient dragon with obsidian scales perched on a crumbling tower", placeholder:"Describe the subject...", tip:"Be specific about materials: 'obsidian scales' is more interesting to the AI than just 'black dragon'." },
+    { number:"03", text:"What's happening?", hint:"Action, tension, moment.", hint2:"e.g. spreading its wings at dawn, holding a crackling orb of energy, descending from storm clouds", type:"text", example:"spreading its wings, glowing eyes, facing the viewer", placeholder:"Describe the action...", tip:"'Facing the viewer' creates an immediate confrontational energy — powerful for hero/villain shots." },
+    { number:"04", text:"What's the world / environment?", hint:"The fantasy setting around the subject.", hint2:"e.g. ruined castle at twilight, enchanted underwater city, volcanic wastelands", type:"text", example:"crumbling stone fortress under a blood-red sky, ash falling like snow", placeholder:"Describe the world...", tip:"Weather and sky are the fastest way to set tone in fantasy — blood-red sky = danger, golden mist = ancient/magical." },
+    { number:"05", text:"What's the mood / tone?", hint:"Epic, dark, whimsical, mysterious?", hint2:"e.g. dark and foreboding, ancient and mythical, whimsical and bright", type:"options+text", example:"Dark / foreboding", options:["Dark / foreboding","Ancient / mythical","Whimsical / bright","Epic / heroic","Mysterious / magical","Desolate / post-apocalyptic"], tip:"'Ancient and mythical' pushes the AI toward stone textures, warm torchlight, worn surfaces — a completely different palette than 'whimsical'." },
+    { number:"06", text:"Lighting and visual style?", hint:"How is this world lit?", hint2:"e.g. bioluminescent glow, dramatic rim lighting, volumetric god rays through storm clouds", type:"options+text", example:"Volumetric god rays, dramatic rim lighting", options:["Bioluminescent glow","Dramatic rim lighting","Volumetric god rays","Moonlight / silver","Fire and ember light","Deep shadow / low-key"], tip:"Rim lighting from behind creates a separation between subject and background — it gives characters a sense of divine or dangerous power." },
+    { number:"07", text:"What's the camera / render style?", hint:"Photographic reference or render engine.", hint2:"e.g. Unreal Engine 5, Octane render, painted like Frank Frazetta, photographed on ARRI", type:"options+text", example:"Unreal Engine 5, cinematic render", options:["Unreal Engine 5","Octane render","ZBrush / sculpted","Painted like Frank Frazetta","ARRI Alexa cinematic","8K hyper-detailed render"], tip:"Frank Frazetta is the godfather of fantasy illustration — his name alone shifts the AI toward that iconic heroic-fantasy style." }
+  ],
+  street: [
+    { number:"01", text:"What type of image?", hint:"Visual style.", hint2:"e.g. documentary photo, cinematic street still, black and white film", type:"options+text", example:"Documentary street photo", options:["Documentary street photo","Cinematic film still","Black and white film","Night / neon street photo","Aerial / bird's eye","Candid / stolen moment"], tip:"'Stolen moment' tells the AI this is unposed, unaware — the most authentic-feeling street photography." },
+    { number:"02", text:"Who or what is the subject?", hint:"Person, crowd, architecture, scene.", hint2:"e.g. an elderly man reading a newspaper at a café, a crowded subway platform", type:"text", example:"a young woman in a yellow raincoat crossing the street alone", placeholder:"Describe the subject...", tip:"A single specific detail (yellow raincoat) anchors the image — without it, the AI defaults to generic." },
+    { number:"03", text:"What are they doing?", hint:"The human moment.", hint2:"e.g. rushing through rain, pausing to look at a phone, laughing with a stranger", type:"text", example:"pausing mid-stride, looking up at the rain", placeholder:"Describe the moment...", tip:"'Mid-stride' and 'mid-action' moments feel alive. Static posed subjects look stiff in street photography." },
+    { number:"04", text:"What city / location?", hint:"Where is this street?", hint2:"e.g. Shibuya crossing, Paris metro, New York Lower East Side, Lagos street market", type:"text", example:"Shibuya crossing, Tokyo, at night", placeholder:"Describe the city and location...", tip:"City names carry massive visual datasets — Tokyo means specific signage, density, and light quality that Paris doesn't." },
+    { number:"05", text:"What mood / atmosphere?", hint:"How does this street feel?", hint2:"e.g. lonely in a crowd, electric and alive, melancholic rainy evening", type:"options+text", example:"Melancholic / rainy", options:["Melancholic / rainy","Electric / alive","Lonely in a crowd","Tense / urgent","Warm / nostalgic","Gritty / raw"], tip:"'Lonely in a crowd' is one of the most powerful street photography concepts — conveys urban isolation instantly." },
+    { number:"06", text:"Camera and lighting?", hint:"How was this shot?", hint2:"e.g. 35mm f/2, available light only, motion blur, Ilford HP5", type:"options+text", example:"35mm f/2, available light, Ilford HP5", options:["35mm f/2 wide","50mm f/1.8 standard","Ilford HP5 B&W film","Kodak Portra 400","Motion blur / slow shutter","Available light only"], tip:"Ilford HP5 pushed to 3200 ISO is the classic gritty black and white street look — grain, deep blacks, raw texture." },
+    { number:"07", text:"What camera was used?", hint:"The camera defines the feel.", hint2:"e.g. Leica M6, Fujifilm X100, Canon AE-1, iPhone", type:"options+text", example:"Leica M6 film", options:["Leica M6 film","Fujifilm X100V","Canon AE-1 35mm","Nikon F3 film","Sony A7C","iPhone 15 Pro"], tip:"Leica M6 is synonymous with street photography — Henri Cartier-Bresson, Vivian Maier. Just the name shifts the whole aesthetic." }
+  ]
+};
 
-const totalSteps = questions.length;
+let currentIntent = null;
+let currentQuestions = [];
 let currentStep = 0;
 let answers = [];
 let selectedOption = "";
+const totalSteps = 7;
+
+function selectIntent(intent) {
+  currentIntent = intent;
+  currentQuestions = questionSets[intent];
+  currentStep = 0;
+  answers = [];
+
+  document.getElementById("introCard").style.display = "none";
+  document.getElementById("progressBar").style.display = "block";
+  document.getElementById("stepCounter").style.display = "block";
+  document.getElementById("questionCard").style.display = "block";
+
+  renderQuestion();
+}
 
 function renderQuestion() {
-  const q = questions[currentStep];
+  const q = currentQuestions[currentStep];
   document.getElementById("qNumber").textContent = "QUESTION " + q.number;
   document.getElementById("qText").textContent = q.text;
   document.getElementById("qHint").innerHTML = q.hint + (q.hint2 ? `<em>${q.hint2}</em>` : "");
   document.getElementById("currentStep").textContent = currentStep + 1;
   document.getElementById("progressFill").style.width = ((currentStep) / totalSteps * 100) + "%";
+
+  // Hide tip until answer
+  const tipBox = document.getElementById("tipBox");
+  tipBox.className = "tip-box";
+  tipBox.textContent = "";
+
+  // Update preview
+  updatePreview();
 
   selectedOption = "";
   const optionsDiv = document.getElementById("qOptions");
@@ -451,15 +662,38 @@ function renderQuestion() {
         const inp = document.getElementById("textInput");
         if (inp) inp.value = "";
         document.getElementById("btnNext").disabled = false;
+        showTip(q.tip);
       };
       grid.appendChild(btn);
     });
     optionsDiv.appendChild(grid);
+  }
 
-    const orDiv = document.createElement("div");
-    orDiv.className = "or-divider";
-    orDiv.textContent = "— or type your own —";
-    optionsDiv.appendChild(orDiv);
+  // Example box
+  if (q.example) {
+    const exBox = document.createElement("div");
+    exBox.className = "example-box";
+    exBox.innerHTML = `<span>💡 Example: <em style="color:#6a5a4a">${q.example}</em></span>`;
+    const useBtn = document.createElement("button");
+    useBtn.className = "use-example-btn";
+    useBtn.textContent = "Use this";
+    useBtn.onclick = () => {
+      document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+      selectedOption = "";
+      const inp = document.getElementById("textInput");
+      if (inp) { inp.value = q.example; }
+      document.getElementById("btnNext").disabled = false;
+      showTip(q.tip);
+    };
+    exBox.appendChild(useBtn);
+
+    if (q.type === "options+text") {
+      const orDiv = document.createElement("div");
+      orDiv.className = "or-divider";
+      orDiv.textContent = "— or type your own —";
+      optionsDiv.appendChild(orDiv);
+    }
+    optionsDiv.appendChild(exBox);
   }
 
   const textarea = document.createElement("textarea");
@@ -472,6 +706,7 @@ function renderQuestion() {
       document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
       selectedOption = "";
       document.getElementById("btnNext").disabled = false;
+      showTip(q.tip);
     } else if (!selectedOption) {
       document.getElementById("btnNext").disabled = true;
     }
@@ -480,10 +715,49 @@ function renderQuestion() {
 
   document.getElementById("btnNext").disabled = true;
 
+  // Update back button
+  const btnBack = document.getElementById("btnBack");
+  btnBack.disabled = (currentStep === 0);
+
   const card = document.getElementById("questionCard");
   card.style.animation = "none";
   card.offsetHeight;
   card.style.animation = "slideUp 0.35s ease both";
+}
+
+function prevStep() {
+  if (currentStep === 0) {
+    // Go back to intro
+    document.getElementById("questionCard").style.display = "none";
+    document.getElementById("progressBar").style.display = "none";
+    document.getElementById("stepCounter").style.display = "none";
+    document.getElementById("introCard").style.display = "block";
+    currentStep = 0;
+    answers = [];
+    return;
+  }
+  currentStep--;
+  answers.splice(currentStep, 1);
+  renderQuestion();
+}
+
+function showTip(tip) {
+  if (!tip) return;
+  const tipBox = document.getElementById("tipBox");
+  tipBox.textContent = "💡 " + tip;
+  tipBox.className = "tip-box visible";
+}
+
+function updatePreview() {
+  const preview = document.getElementById("promptPreview");
+  const previewText = document.getElementById("promptPreviewText");
+  if (answers.length === 0) {
+    preview.className = "prompt-preview";
+    return;
+  }
+  const parts = answers.map(a => `[${a}]`);
+  previewText.textContent = parts.join(", ") + "...";
+  preview.className = "prompt-preview visible";
 }
 
 function nextStep() {
@@ -515,7 +789,6 @@ function showResult() {
     pillsDiv.appendChild(pill);
   });
 
-  // Build prompt with square brackets
   const parts = [
     answers[0],
     answers[1],
@@ -526,11 +799,9 @@ function showResult() {
     "shot on " + (answers[6] || "Sony Venice")
   ];
 
-  // Plain text version for clipboard
   const plainText = parts.map(p => `[${p}]`).join(", ");
   document.getElementById("promptPlain").textContent = plainText;
 
-  // Visual version
   const promptBox = document.getElementById("promptBox");
   promptBox.innerHTML = parts.map(p =>
     `<span class="bracket">[</span>${p}<span class="bracket">]</span>`
@@ -543,15 +814,30 @@ function showResult() {
   result.style.animation = "slideUp 0.5s ease both";
 }
 
-function copyPrompt() {
-  const text = document.getElementById("promptPlain").textContent;
+const platformPrefixes = {
+  midjourney: "",
+  nano: "",
+  chatgpt: "Generate an image based on this prompt: "
+};
+
+const platformSuffixes = {
+  midjourney: " --ar 16:9 --v 6",
+  nano: " --photorealistic --high-quality",
+  chatgpt: ""
+};
+
+function copyFor(platform) {
+  const base = document.getElementById("promptPlain").textContent;
+  const text = platformPrefixes[platform] + base + platformSuffixes[platform];
   navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById("btnCopy");
-    btn.textContent = "✓ Copied!";
-    btn.classList.add("copied");
+    document.querySelectorAll(".btn-copy-platform").forEach(b => b.classList.remove("copied"));
+    const labels = { midjourney: "✓ Copied!", nano: "✓ Copied!", chatgpt: "✓ Copied!" };
+    event.target.textContent = labels[platform];
+    event.target.classList.add("copied");
     setTimeout(() => {
-      btn.textContent = "Copy prompt";
-      btn.classList.remove("copied");
+      const names = { midjourney: "Copy for\nMidjourney", nano: "Copy for\nNano Banana", chatgpt: "Copy for\nChatGPT" };
+      event.target.innerHTML = names[platform].replace("\n", "<br>");
+      event.target.classList.remove("copied");
     }, 2000);
   });
 }
@@ -560,13 +846,13 @@ function restart() {
   currentStep = 0;
   answers = [];
   selectedOption = "";
+  currentIntent = null;
   document.getElementById("resultCard").style.display = "none";
-  document.getElementById("questionCard").style.display = "block";
-  document.getElementById("stepCounter").style.display = "block";
-  renderQuestion();
+  document.getElementById("progressBar").style.display = "none";
+  document.getElementById("stepCounter").style.display = "none";
+  document.getElementById("questionCard").style.display = "none";
+  document.getElementById("introCard").style.display = "block";
 }
-
-renderQuestion();
 </script>
 </body>
 </html>
