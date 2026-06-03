@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Prompt Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #222222;
+    --accent: #e8ff47;
+    --accent2: #ff6b35;
+    --text: #f0f0f0;
+    --muted: #555;
+    --done: #2a2a2a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 50px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  header h1 span { color: var(--accent); }
+
+  header p {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar {
+    width: 100%;
+    max-width: 560px;
+    height: 2px;
+    background: var(--border);
+    margin-bottom: 40px;
+    border-radius: 2px;
+    overflow: hidden;
+    animation: fadeIn 0.6s 0.2s ease both;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .step-counter {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 0.1em;
+    animation: fadeIn 0.6s 0.3s ease both;
+  }
+
+  .step-counter span { color: var(--accent); }
+
+  .card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    animation: slideUp 0.4s ease both;
+  }
+
+  .question-number {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .question-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .question-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .question-hint em {
+    color: #888;
+    font-style: normal;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .option-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+  }
+
+  .option-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232, 255, 71, 0.05);
+  }
+
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: rgba(232, 255, 71, 0.08);
+    color: var(--accent);
+  }
+
+  .input-field {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 16px 18px;
+    border-radius: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    resize: none;
+  }
+
+  .input-field:focus { border-color: var(--accent); }
+  .input-field::placeholder { color: var(--muted); }
+
+  .btn-next {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: all 0.2s ease;
+  }
+
+  .btn-next:hover {
+    background: #f5ff80;
+    transform: translateY(-1px);
+  }
+
+  .btn-next:active { transform: translateY(0); }
+
+  .btn-next:disabled {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* RESULT */
+  .result-card {
+    width: 100%;
+    max-width: 560px;
+    display: none;
+    animation: slideUp 0.5s ease both;
+  }
+
+  .result-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .prompt-box {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 28px;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .prompt-box .tag {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  .prompt-plain {
+    display: none;
+  }
+
+  .btn-copy {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-copy:hover {
+    background: rgba(232, 255, 71, 0.08);
+  }
+
+  .btn-copy.copied {
+    color: #0a0a0a;
+    background: var(--accent);
+  }
+
+  .btn-restart {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-restart:hover { color: var(--text); border-color: #444; }
+
+  .summary-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .pill {
+    background: var(--done);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    color: #888;
+  }
+
+  .pill span { color: var(--text); }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AI <span>Prompt</span> Builder</h1>
+  <p>6 întrebări → promptul tău perfect</p>
+</header>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="step-counter" id="stepCounter">
+  Pasul <span id="currentStep">1</span> din <span>6</span>
+</div>
+
+<!-- QUESTIONS -->
+<div class="card" id="questionCard">
+  <div class="question-number" id="qNumber">ÎNTREBAREA 01</div>
+  <div class="question-text" id="qText"></div>
+  <div class="question-hint" id="qHint"></div>
+  <div id="qOptions"></div>
+  <button class="btn-next" id="btnNext" onclick="nextStep()">Continuă →</button>
+</div>
+
+<!-- RESULT -->
+<div class="result-card" id="resultCard">
+  <div class="result-label">✦ Promptul tău</div>
+  <div class="summary-pills" id="summaryPills"></div>
+  <div class="prompt-box" id="promptBox"></div>
+  <div class="prompt-plain" id="promptPlain"></div>
+  <button class="btn-copy" id="btnCopy" onclick="copyPrompt()">Copiază promptul</button>
+  <button class="btn-restart" onclick="restart()">← Încearcă din nou</button>
+</div>
+
+<script>
+const questions = [
+  {
+    number: "01",
+    text: "Ce tip de imagine vrei?",
+    hint: "Stilul vizual de bază al imaginii.",
+    hint2: "ex: fotografie realistă, ilustrație, film cinematic, 3D render",
+    type: "options+text",
+    options: ["Fotografie realistă", "Film cinematic", "Ilustrație digitală", "3D render", "Animație/cartoon", "Pictură în ulei"]
+  },
+  {
+    number: "02",
+    text: "Cine sau ce e în imagine?",
+    hint: "Subiectul principal. Fii specific: vârstă, aspect, detalii.",
+    hint2: "ex: femeie de 30 ani cu păr roșcat, robot abandonat, mașină sport neagră",
+    type: "text",
+    placeholder: "Descrie subiectul..."
+  },
+  {
+    number: "03",
+    text: "Ce face subiectul?",
+    hint: "Acțiunea sau starea. Dacă nu face nimic — descrie expresia sau postura.",
+    hint2: "ex: aleargă prin ploaie, privește în depărtare, ține o carte",
+    type: "text",
+    placeholder: "Descrie acțiunea sau postura..."
+  },
+  {
+    number: "04",
+    text: "Unde se află? Care e fundalul?",
+    hint: "Locația, mediul, contextul. Cu cât mai specific, cu atât mai bine.",
+    hint2: "ex: Tokyo noaptea, pădure întunecată, studio alb minimalist, deșert la apus",
+    type: "text",
+    placeholder: "Descrie locația și fundalul..."
+  },
+  {
+    number: "05",
+    text: "Ce atmosferă și mood vrei?",
+    hint: "Cum trebuie să se simtă imaginea emoțional și vizual.",
+    hint2: "ex: întunecat și misterios, cald și nostalgic, cyberpunk neon, epic cinematic",
+    type: "options+text",
+    options: ["Întunecat / misterios", "Cald / nostalgic", "Epic / dramatic", "Minimalist / curat", "Cyberpunk / neon", "Natural / organic"]
+  },
+  {
+    number: "06",
+    text: "Detalii tehnice: cameră și lumină",
+    hint: "Opțional dar important. Alege ce se potrivește stilului tău.",
+    hint2: "Lasă gol dacă nu știi — vom adăuga setări standard.",
+    type: "options+text",
+    options: ["85mm portrait lens", "35mm wide angle", "Golden hour lighting", "Low-key / dramatic shadows", "High-key / bright studio", "Kodak Portra 400 film"]
+  }
+];
+
+let currentStep = 0;
+let answers = [];
+let selectedOption = "";
+
+function renderQuestion() {
+  const q = questions[currentStep];
+  document.getElementById("qNumber").textContent = "ÎNTREBAREA " + q.number;
+  document.getElementById("qText").textContent = q.text;
+  document.getElementById("qHint").innerHTML = q.hint + (q.hint2 ? `<em>${q.hint2}</em>` : "");
+  document.getElementById("currentStep").textContent = currentStep + 1;
+  document.getElementById("progressFill").style.width = ((currentStep) / 6 * 100) + "%";
+
+  selectedOption = "";
+  const optionsDiv = document.getElementById("qOptions");
+  optionsDiv.innerHTML = "";
+
+  if (q.type === "options+text") {
+    const grid = document.createElement("div");
+    grid.className = "options-grid";
+    q.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "option-btn";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+        selectedOption = opt;
+        const inp = document.getElementById("textInput");
+        if (inp) inp.value = "";
+        document.getElementById("btnNext").disabled = false;
+      };
+      grid.appendChild(btn);
+    });
+    optionsDiv.appendChild(grid);
+
+    const orDiv = document.createElement("div");
+    orDiv.style.cssText = "text-align:center; color: var(--muted); font-size:0.75rem; margin: 12px 0 10px; letter-spacing:0.1em;";
+    orDiv.textContent = "— sau scriei direct —";
+    optionsDiv.appendChild(orDiv);
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.className = "input-field";
+  textarea.id = "textInput";
+  textarea.rows = 2;
+  textarea.placeholder = q.placeholder || "Sau scrie propria ta variantă...";
+  textarea.oninput = () => {
+    if (textarea.value.trim()) {
+      document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+      selectedOption = "";
+      document.getElementById("btnNext").disabled = false;
+    } else if (!selectedOption) {
+      document.getElementById("btnNext").disabled = true;
+    }
+  };
+  optionsDiv.appendChild(textarea);
+
+  document.getElementById("btnNext").disabled = true;
+
+  // Re-animate card
+  const card = document.getElementById("questionCard");
+  card.style.animation = "none";
+  card.offsetHeight;
+  card.style.animation = "slideUp 0.35s ease both";
+}
+
+function nextStep() {
+  const textInput = document.getElementById("textInput");
+  const value = (textInput && textInput.value.trim()) ? textInput.value.trim() : selectedOption;
+
+  if (!value) return;
+  answers[currentStep] = value;
+  currentStep++;
+
+  if (currentStep >= 6) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById("questionCard").style.display = "none";
+  document.getElementById("stepCounter").style.display = "none";
+  document.getElementById("progressFill").style.width = "100%";
+
+  const labels = ["Tip", "Subiect", "Acțiune", "Locație", "Atmosferă", "Tehnică"];
+  const pillsDiv = document.getElementById("summaryPills");
+  pillsDiv.innerHTML = "";
+  answers.forEach((a, i) => {
+    const pill = document.createElement("div");
+    pill.className = "pill";
+    pill.innerHTML = `${labels[i]}: <span>${a}</span>`;
+    pillsDiv.appendChild(pill);
+  });
+
+  // Build prompt
+  const techDefault = answers[5] || "sharp focus, professional lighting";
+  const promptParts = [
+    answers[0],
+    answers[1],
+    answers[2],
+    answers[3],
+    answers[4] + " mood",
+    techDefault
+  ];
+
+  const promptText = promptParts.join(", ");
+
+  // Display with highlights
+  const taggedLabels = ["", "", "", "", '<span class="tag">mood:</span> ', '<span class="tag">tech:</span> '];
+  const promptBox = document.getElementById("promptBox");
+  promptBox.innerHTML = promptParts.map((p, i) => `${taggedLabels[i]}${p}`).join(', ');
+
+  document.getElementById("promptPlain").textContent = promptText;
+
+  const result = document.getElementById("resultCard");
+  result.style.display = "block";
+  result.style.animation = "none";
+  result.offsetHeight;
+  result.style.animation = "slideUp 0.5s ease both";
+}
+
+function copyPrompt() {
+  const text = document.getElementById("promptPlain").textContent ||
+               document.getElementById("promptBox").innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("btnCopy");
+    btn.textContent = "✓ Copiat!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "Copiază promptul";
+      btn.classList.remove("copied");
+    }, 2000);
+  });
+}
+
+function restart() {
+  currentStep = 0;
+  answers = [];
+  selectedOption = "";
+  document.getElementById("resultCard").style.display = "none";
+  document.getElementById("questionCard").style.display = "block";
+  document.getElementById("stepCounter").style.display = "block";
+  renderQuestion();
+}
+
+// Init
+renderQuestion();
+</script>
+</body>
+</html>
